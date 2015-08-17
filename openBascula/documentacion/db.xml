@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<database>
+    <table name="Empresa">
+        <column name="idEmpresa" key="True" type="int" auto_increment="True" />
+        <column name="Nombre" type="varchar" />
+        <column name="RazonSocial" type="varchar" />
+        <column name="CIF" type="varchar" />
+        <column name="Direccion" type="varchar" />
+        <column name="Localidad" type="varchar" />
+        <column name="Provincia" type="varchar" />
+        <column name="Telefono" type="varchar" />
+        <column name="Email" type="varchar" />
+        <column name="Cuenta_bancaria" type="varchar" />
+        <column name="Forma_de_pago" type="varchar" />
+        <column name="Codigo_contabilidad" type="varchar" />
+    </table>
+    <table name="ConfiguracionApp">
+        <column name="id" key="True" type="int" auto_increment="True" />
+        <column name="parametro" type="varchar" />
+        <column name="valor" type="varchar" />
+    </table>
+    <table name="Usuario">
+        <column name="loginName" key="True" type="varchar" />
+        <column name="password" type="varchar" />
+        <column name="real_name" type="varchar" />
+        <column name="email" type="varchar" />
+        <column name="permiso" type="varchar" />
+    </table>
+    <table name="Vehiculo">
+        <column name="idVehiculo" type="int" auto_increment="True" key="True" />
+        <column name="matricula" type="varchar" />
+        <column name="id_empresa" type="int" />
+        <column name="fecha_alta" type="date" />
+        <column name="fecha_baja" type="date" />
+        <!--
+        Un camion puede estar con una empresa durante un periodo determinado y despues
+        cambiar el contrato a otra.
+        -->
+    </table>
+</database>
