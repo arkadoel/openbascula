@@ -5,37 +5,39 @@ import directORM
 class Vehiculo:
     def __init__(self):
 
-        self.idVehiculo = -1
+        self.id_vehiculo = -1
         self.matricula = ''
         self.id_empresa = 0
+        self.id_conductor = 0
         self.fecha_alta = ''
         self.fecha_baja = ''
 
 class TbVehiculos:
     INSERT = '''
         insert into Vehiculos
-        ( matricula, id_empresa, fecha_alta, fecha_baja)
-        values (?,?,?,?)
+        ( matricula, id_empresa, id_conductor, fecha_alta, fecha_baja)
+        values (?,?,?,?,?)
         '''
-    DELETE = 'delete from Vehiculos where idVehiculo = ?'
+    DELETE = 'delete from Vehiculos where id_vehiculo = ?'
     SELECT = 'select * from Vehiculos'
     UPDATE = '''
         update Vehiculos set  
         matricula = ?,
         id_empresa = ?,
+        id_conductor = ?,
         fecha_alta = ?,
         fecha_baja = ?
-        where  idVehiculo = ?
+        where  id_vehiculo = ?
         '''
     def __init__(self):
         self.gestorDB = directORM.Db()
 
     def remove(self, vehiculo ):
         sql = self.DELETE
-        self.gestorDB.ejecutarSQL(sql, (vehiculo.idVehiculo))
+        self.gestorDB.ejecutarSQL(sql, (vehiculo.id_vehiculo))
 
-    def get_vehiculo(self, idVehiculo=None):
-        sql = self.SELECT + " where idVehiculo=" + str(idVehiculo) +";"
+    def get_vehiculo(self, id_vehiculo=None):
+        sql = self.SELECT + " where id_vehiculo=" + str(id_vehiculo) +";"
         fila = self.gestorDB.consultaUnicaSQL(sql)
         if fila is None:
             return None
@@ -46,11 +48,12 @@ class TbVehiculos:
 
     def save(self, vehiculo=None):
         if vehiculo is not None:
-            if self.get_vehiculo(vehiculo.idVehiculo) is None:
+            if self.get_vehiculo(vehiculo.id_vehiculo) is None:
                 sql = self.INSERT
                 self.gestorDB.ejecutarSQL(sql, (
                     vehiculo.matricula,
                     vehiculo.id_empresa,
+                    vehiculo.id_conductor,
                     vehiculo.fecha_alta,
                     vehiculo.fecha_baja))
             else:
@@ -58,18 +61,20 @@ class TbVehiculos:
                 self.gestorDB.ejecutarSQL(sql, (
                     vehiculo.matricula,
                     vehiculo.id_empresa,
+                    vehiculo.id_conductor,
                     vehiculo.fecha_alta,
                     vehiculo.fecha_baja,
-                    vehiculo.idVehiculo))
+                    vehiculo.id_vehiculo))
 
     def mapear_objeto(self, fila=None):
         if fila is None:
             return None
         else:
             o = Vehiculo()
-            o.idVehiculo = fila['idVehiculo']
+            o.id_vehiculo = fila['id_vehiculo']
             o.matricula = fila['matricula']
             o.id_empresa = fila['id_empresa']
+            o.id_conductor = fila['id_conductor']
             o.fecha_alta = fila['fecha_alta']
             o.fecha_baja = fila['fecha_baja']
             return o

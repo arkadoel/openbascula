@@ -2,23 +2,23 @@
 import sqlite3
 import directORM
 
-class ConfiguracionApp:
+class Configuracion:
     def __init__(self):
 
         self.id = -1
         self.parametro = ''
         self.valor = ''
 
-class TbConfiguracionAppes:
+class TbConfiguraciones:
     INSERT = '''
-        insert into ConfiguracionAppes
+        insert into Configuraciones
         ( parametro, valor)
         values (?,?)
         '''
-    DELETE = 'delete from ConfiguracionAppes where id = ?'
-    SELECT = 'select * from ConfiguracionAppes'
+    DELETE = 'delete from Configuraciones where id = ?'
+    SELECT = 'select * from Configuraciones'
     UPDATE = '''
-        update ConfiguracionAppes set  
+        update Configuraciones set  
         parametro = ?,
         valor = ?
         where  id = ?
@@ -26,11 +26,11 @@ class TbConfiguracionAppes:
     def __init__(self):
         self.gestorDB = directORM.Db()
 
-    def remove(self, configuracionapp ):
+    def remove(self, configuracion ):
         sql = self.DELETE
-        self.gestorDB.ejecutarSQL(sql, (configuracionapp.id))
+        self.gestorDB.ejecutarSQL(sql, (configuracion.id))
 
-    def get_configuracionapp(self, id=None):
+    def get_configuracion(self, id=None):
         sql = self.SELECT + " where id=" + str(id) +";"
         fila = self.gestorDB.consultaUnicaSQL(sql)
         if fila is None:
@@ -40,31 +40,31 @@ class TbConfiguracionAppes:
             return o
 
 
-    def save(self, configuracionapp=None):
-        if configuracionapp is not None:
-            if self.get_configuracionapp(configuracionapp.id) is None:
+    def save(self, configuracion=None):
+        if configuracion is not None:
+            if self.get_configuracion(configuracion.id) is None:
                 sql = self.INSERT
                 self.gestorDB.ejecutarSQL(sql, (
-                    configuracionapp.parametro,
-                    configuracionapp.valor))
+                    configuracion.parametro,
+                    configuracion.valor))
             else:
                 sql = self.UPDATE
                 self.gestorDB.ejecutarSQL(sql, (
-                    configuracionapp.parametro,
-                    configuracionapp.valor,
-                    configuracionapp.id))
+                    configuracion.parametro,
+                    configuracion.valor,
+                    configuracion.id))
 
     def mapear_objeto(self, fila=None):
         if fila is None:
             return None
         else:
-            o = ConfiguracionApp()
+            o = Configuracion()
             o.id = fila['id']
             o.parametro = fila['parametro']
             o.valor = fila['valor']
             return o
 
-    def get_configuracionappes(self, filtro=None):
+    def get_configuraciones(self, filtro=None):
         if filtro is None:
             sql = self.SELECT
         else: 

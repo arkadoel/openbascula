@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<database>
+    <table name="Empresa">
+        <column name="id_empresa" key="True" type="int" auto_increment="True" />
+        <column name="nombre" type="varchar" />
+        <column name="razon_social" type="varchar" />
+        <column name="cif" type="varchar" />
+        <column name="direccion" type="varchar" />
+        <column name="localidad" type="varchar" />
+        <column name="provincia" type="varchar" />
+        <column name="telefono" type="varchar" />
+        <column name="email" type="varchar" />
+        <column name="cuenta_bancaria" type="varchar" />
+        <column name="forma_de_pago" type="varchar" />
+        <column name="codigo_contable" type="varchar" />
+    </table>
+    <table name="Configuracion">
+        <column name="id" key="True" type="int" auto_increment="True" />
+        <column name="parametro" type="varchar" />
+        <column name="valor" type="varchar" />
+    </table>
+    <table name="Usuario">
+        <column name="login_name" key="True" type="varchar" />
+        <column name="password" type="varchar" />
+        <column name="real_name" type="varchar" />
+        <column name="email" type="varchar" />
+        <column name="permiso" type="varchar" />
+    </table>
+    <table name="Vehiculo">
+        <column name="id_vehiculo" type="int" auto_increment="True" key="True" />
+        <column name="matricula" type="varchar" />
+        <column name="id_empresa" type="int" />
+		<column name="id_conductor" type="int" >
+			<!-- id del ultimo conductor que lo ha usado-->
+		</column>
+        <column name="fecha_alta" type="date" />
+        <column name="fecha_baja" type="date" />
+        <!--
+        Un camion puede estar con una empresa durante un periodo 
+		determinado y despues cambiar el contrato a otra.
+        -->
+    </table>
+	<table name="Conductor">
+        <column name="id_conductor" type="int" auto_increment="True" key="True" />        
+        <column name="id_empresa" type="int" />
+        <column name="fecha_alta" type="date" />
+        <column name="fecha_baja" type="date" />
+        <!--
+        Un conductor puede estar con una empresa durante un periodo 
+		determinado y despues cambiar el contrato a otra.
+        -->
+		<column name="nombre" type="varchar" />
+		<column name="apellidos" type="varchar" />
+        <column name="nif" type="varchar" />
+        <column name="direccion" type="varchar" />
+        <column name="localidad" type="varchar" />
+        <column name="provincia" type="varchar" />
+        <column name="telefono" type="varchar" />
+        <column name="email" type="varchar" />
+    </table>
+	<table name="Producto">
+		<column name="id_producto" type="int" auto_increment="True" key="True" />
+		<column name="nombre" type="varchar" />
+		<column name="descripcion" type="varchar" />
+		<column name="precio" type="float" />
+		<column name="iva_aplicado" type="int" />
+		<column name="tipo_material" type="varchar" >
+			<!--
+			ENTRADA, SALIDA,
+			ENTRADA (TARIFA PLANA),
+			SALIDA (TARIFA PLANA)
+			los dos ultimos saldran si se marca la opcion de 'es tarifa plana'
+			-->
+		</column>
+		<column name="codigo_contable" type="varchar" />
+		<column name="es_tarifa_plana" type="boolean" />
+	</table>
+	<table name="Transito_actual">
+		<column name="id_transito" type="int" auto_increment="True" key="True" />
+		<column name="num_albaran" type="varchar" />
+		<column name="mat_cabina" type="varchar" />
+		<column name="mat_remolque" type="varchar" />
+		<column name="fecha_entrada" type="date" />
+		<column name="fecha_salida" type="date" />
+		<column name="bruto" type="int" />
+		<column name="tara" type="int" />
+		<column name="neto" type="int" />
+		<column name="iva_aplicable" type="varchar" />
+		<column name="importe_final" type="varchar" />
+		<column name="importe_producto" type="varchar" />
+		<column name="id_producto" type="int" />
+		<!--
+			cliente: empresa que es nuestro cliente (consignatario de nuestras 
+					 mercancias), comunmente para salidas
+			proveedor: empresa productora de la mercancia
+			agencia: empresa de camiones que gestiona el envio
+			poseedor: empresa que transporta realmente el material
+		-->
+		<column name="id_cliente" type="int" />
+		<column name="id_proveedor" type="int" />
+		<column name="id_agencia" type="int" />
+		<column name="id_poseedor" type="int" />
+		<column name="id_conductor" type="int" />
+		<column name="origen" type="varchar" />
+		<column name="destino" type="varchar" />
+	</table>
+	<table name="Historico">
+		<!-- DATOS GENERALES -->
+		<column name="id_historico" type="int" auto_increment="True" key="True" />
+		<column name="num_albaran" type="varchar" />
+		<column name="mat_cabina" type="varchar" />
+		<column name="mat_remolque" type="varchar" />
+		<column name="fecha_entrada" type="date" />
+		<column name="fecha_salida" type="date" />
+		<column name="bruto" type="int" />
+		<column name="tara" type="int" />
+		<column name="neto" type="int" />
+		<column name="origen" type="varchar" />
+		<column name="destino" type="varchar" />
+		<column name="forma_pago" type="varchar" />
+		<!-- PRODUCTO -->
+		<column name="iva_aplicable" type="varchar" />
+		<column name="importe_final" type="varchar" />
+		<column name="importe_sin_iva" type="varchar" />
+		<column name="importe_producto" type="varchar" />
+		<column name="nombre_producto" type="int" />
+		<column name="tipo_material" type="varchar" />
+		<column name="cod_conta_prod" type="int" />
+		<!-- CLIENTE -->
+        <column name="razon_social_cliente" type="varchar" />
+        <column name="cif_cliente" type="varchar" />
+        <column name="direccion_cliente" type="varchar" />
+		<column name="tlf_cliente" type="varchar" />
+        <column name="ubicacion_cliente" type="varchar" />
+        <column name="cod_conta_cliente" type="varchar" />
+		<!-- PROVEEDOR -->
+		<column name="razon_social_proveedor" type="varchar" />
+        <column name="cif_proveedor" type="varchar" />
+        <column name="direccion_proveedor" type="varchar" />
+		<column name="tlf_proveedor" type="varchar" />
+        <column name="ubicacion_proveedor" type="varchar" />
+        <column name="cod_conta_proveedor" type="varchar" />
+		<!-- AGENCIA TRANSPORTE -->
+		<column name="razon_social_agencia" type="varchar" />
+        <column name="cif_agencia" type="varchar" />
+        <column name="direccion_agencia" type="varchar" />
+		<column name="tlf_agencia" type="varchar" />
+        <column name="ubicacion_agencia" type="varchar" />
+        <column name="cod_conta_agencia" type="varchar" />
+		<!-- POSEEDOR -->
+		<column name="razon_social_poseedor" type="varchar" />
+        <column name="cif_poseedor" type="varchar" />
+        <column name="direccion_poseedor" type="varchar" />
+		<column name="tlf_poseedor" type="varchar" />
+        <column name="ubicacion_poseedor" type="varchar" />
+        <column name="cod_conta_poseedor" type="varchar" />
+		<!-- CONDUCTOR CAMION -->
+		<column name="nombre_conductor" type="varchar" />
+        <column name="nif_conductor" type="varchar" />
+        <column name="direccion_conductor" type="varchar" />
+		<column name="tlf_conductor" type="varchar" />
+        <column name="ubicacion_conductor" type="varchar" />		
+	</table>
+</database>

@@ -5,7 +5,7 @@ import directORM
 class Usuario:
     def __init__(self):
 
-        self.loginName = ''
+        self.login_name = ''
         self.password = ''
         self.real_name = ''
         self.email = ''
@@ -17,7 +17,7 @@ class TbUsuarios:
         ( password, real_name, email, permiso)
         values (?,?,?,?)
         '''
-    DELETE = 'delete from Usuarios where loginName = ?'
+    DELETE = 'delete from Usuarios where login_name = ?'
     SELECT = 'select * from Usuarios'
     UPDATE = '''
         update Usuarios set  
@@ -25,17 +25,17 @@ class TbUsuarios:
         real_name = ?,
         email = ?,
         permiso = ?
-        where  loginName = ?
+        where  login_name = ?
         '''
     def __init__(self):
         self.gestorDB = directORM.Db()
 
     def remove(self, usuario ):
         sql = self.DELETE
-        self.gestorDB.ejecutarSQL(sql, (usuario.loginName))
+        self.gestorDB.ejecutarSQL(sql, (usuario.login_name))
 
-    def get_usuario(self, loginName=None):
-        sql = self.SELECT + " where loginName=" + str(loginName) +";"
+    def get_usuario(self, login_name=None):
+        sql = self.SELECT + " where login_name=" + str(login_name) +";"
         fila = self.gestorDB.consultaUnicaSQL(sql)
         if fila is None:
             return None
@@ -46,7 +46,7 @@ class TbUsuarios:
 
     def save(self, usuario=None):
         if usuario is not None:
-            if self.get_usuario(usuario.loginName) is None:
+            if self.get_usuario(usuario.login_name) is None:
                 sql = self.INSERT
                 self.gestorDB.ejecutarSQL(sql, (
                     usuario.password,
@@ -60,14 +60,14 @@ class TbUsuarios:
                     usuario.real_name,
                     usuario.email,
                     usuario.permiso,
-                    usuario.loginName))
+                    usuario.login_name))
 
     def mapear_objeto(self, fila=None):
         if fila is None:
             return None
         else:
             o = Usuario()
-            o.loginName = fila['loginName']
+            o.login_name = fila['login_name']
             o.password = fila['password']
             o.real_name = fila['real_name']
             o.email = fila['email']
