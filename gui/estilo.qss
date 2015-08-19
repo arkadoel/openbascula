@@ -1,0 +1,39 @@
+QFrame#myFrame
+{
+    background: gainsboro;
+}
+QLabel
+{
+    font: bold 14px;
+    padding: 10px;
+}
+QLineEdit,QDateTimeEdit
+{
+    text-align: center;
+    height: 25px;
+    font: 16px 'Courier';
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: black;
+}
+
+QPushButton
+{
+    background-color: gainsboro;
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: black;
+    color: black;
+    padding: 5px;
+    font: bold 16px;
+}
+QPushButton:focus:Pressed
+{
+    background-color: #e0f2f1;
+}
+QPushButton:Hover
+{
+    background-color: #fafafa;
+}
