@@ -4,18 +4,30 @@ QFrame#myFrame
 }
 QLabel
 {
-    font: bold 14px;
+    font: bold 12px;
     padding: 10px;
 }
 QLineEdit,QDateTimeEdit
 {
     text-align: center;
     height: 25px;
-    font: 16px 'Courier';
+    font: 16px 'Courier New';
     border-style: outset;
     border-width: 2px;
     border-radius: 5px;
     border-color: black;
+}
+
+QLineEdit#txtCabina, QLineEdit#txtRemolque
+{
+    text-align: center;
+    height: 25px;
+    font: 16px 'Courier New';
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: black;
+    qproperty-alignment: AlignCenter;
 }
 
 QPushButton
@@ -27,7 +39,7 @@ QPushButton
     border-color: black;
     color: black;
     padding: 5px;
-    font: bold 16px;
+    font: bold 14px;
 }
 QPushButton:focus:Pressed
 {
