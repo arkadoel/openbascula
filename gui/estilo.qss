@@ -7,7 +7,7 @@ QLabel
     font: bold 12px;
     padding: 10px;
 }
-QLineEdit,QDateTimeEdit
+QLineEdit,QDateTimeEdit, QListWidget
 {
     text-align: center;
     height: 25px;

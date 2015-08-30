@@ -14,4 +14,8 @@ _________________________
 ___
 >**29 de Agosto **
 > >Se añaden mas controles y temas
+___
+>**30 DE AGOSTO**
+> >Se añade el formulario para buscar por cliente, proveedor, poseedor, agencia, ....
+> >
 

@@ -2,6 +2,7 @@ from PyQt4 import QtGui, QtCore
 import core.Fechas
 import Constantes as const
 from gui import Util
+from gui.Dialogo_buscar import Ventana_buscar
 
 class V_Principal(QtGui.QMainWindow):
     """
@@ -161,6 +162,7 @@ class V_Principal(QtGui.QMainWindow):
                                              Util.formato_numerico(
                                                  control=self.txtPesoSalida
                                              ))
+
         self.btnNuevo.clicked.connect(lambda: self.clickAction('Nuevo/guardar'))
         self.btnProductos.clicked.connect(lambda: self.clickAction('Buscar: Productos'))
         self.btnCliente.clicked.connect(lambda: self.clickAction('Buscar: Clientes'))
@@ -180,7 +182,8 @@ class V_Principal(QtGui.QMainWindow):
                     self.habilitar_controles(habilitar=False)
             elif 'Buscar: ' in accion:
                 lugar = accion.replace('Buscar: ', '')
-                print(lugar)
+                dialogo = Ventana_buscar(parent=self, buscar=lugar)
+                dialogo.show()
 
 
     def habilitar_controles(self, habilitar=False):
@@ -251,3 +254,4 @@ class V_Principal(QtGui.QMainWindow):
 
         qss = open('gui/estilo.qss').read()
         self.setStyleSheet(qss)
+        QtGui.qApp.setStyle('Cleanlooks')
