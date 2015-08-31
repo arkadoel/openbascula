@@ -3,6 +3,8 @@ import core.Fechas
 import Constantes as const
 from gui import Util
 from gui.Dialogo_buscar import Ventana_buscar
+from directORM.forTransito_actuales import Transito_actual
+from core.LogicaTransitos import Logica_Transitos
 
 class V_Principal(QtGui.QMainWindow):
     """
@@ -15,46 +17,9 @@ class V_Principal(QtGui.QMainWindow):
         #self.setWindowIcon(QtGui.QIcon('icono.png'))
 
         self.iniciar_controles()
+        self.maquetar()
 
-        self.grid_fondo.addWidget(self.btnNuevo, 0, 0)
-        self.grid_fondo.addWidget(self.lblCabina, 1, 0)
-        self.grid_fondo.addWidget(self.lblRemolque, 1, 3)
-        self.grid_fondo.addWidget(self.lblFechaEntrada, 2, 3)
-        self.grid_fondo.addWidget(self.lblProducto, 3, 0)
-        self.grid_fondo.addWidget(self.lblCliente, 4, 0)
-        self.grid_fondo.addWidget(self.lblProveedor, 5, 0)
-        self.grid_fondo.addWidget(self.lblAgencia, 6, 0)
-        self.grid_fondo.addWidget(self.lblPoseedor, 7, 0)
-        self.grid_fondo.addWidget(self.lblConductor, 8, 0)
-        self.grid_fondo.addWidget(self.lblPesoEntrada, 9, 0)
-        self.grid_fondo.addWidget(self.lblPesoSalida, 10, 0)
-        self.grid_fondo.addWidget(self.lblNeto, 11, 0)
-
-        self.grid_fondo.addWidget(self.txtCabina, 1, 1, 1, 3)
-        self.grid_fondo.addWidget(self.txtRemolque, 1, 4, 1, 1)
-        self.grid_fondo.addWidget(self.dtFechaEntrada, 2, 4, 1, 1)
-        self.grid_fondo.addWidget(self.txtProducto, 3, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtCliente, 4, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtProveedor, 5, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtAgencia, 6, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtPoseedor, 7, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtConductor, 8, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtPesoEntrada, 9, 1)
-        self.grid_fondo.addWidget(self.txtPesoSalida, 10, 1)
-        self.grid_fondo.addWidget(self.txtNeto, 11, 1)
-
-        self.grid_fondo.addWidget(self.btnProductos, 3, 6, 1, 1)
-        self.grid_fondo.addWidget(self.btnCliente, 4, 6, 1, 1)
-        self.grid_fondo.addWidget(self.btnProveedor, 5, 6, 1, 1)
-        self.grid_fondo.addWidget(self.btnAgencia, 6, 6, 1, 1)
-        self.grid_fondo.addWidget(self.btnPoseedor, 7, 6, 1, 1)
-        self.grid_fondo.addWidget(self.btnConductor, 8, 6, 1, 1)
-
-        self.vbox_fondo.addLayout(self.grid_fondo)
-        self.vbox_fondo.addStretch(0)
-        self.frame.setLayout(self.vbox_fondo)
-
-        self.setCentralWidget(self.frame)
+        self.transito_actual = None
 
     def iniciar_controles(self):
         """
@@ -75,6 +40,8 @@ class V_Principal(QtGui.QMainWindow):
         self.lblPesoEntrada = QtGui.QLabel('Kg. ENTRADA', self)
         self.lblPesoSalida = QtGui.QLabel('Kg. SALIDA', self)
         self.lblNeto = QtGui.QLabel('NETO', self)
+        self.lblOrigen = QtGui.QLabel('ORIGEN', self)
+        self.lblDestino = QtGui.QLabel('DESTINO', self)
 
         self.txtCabina = QtGui.QLineEdit(self)
         self.txtCabina.setObjectName('txtCabina')
@@ -83,17 +50,28 @@ class V_Principal(QtGui.QMainWindow):
         self.txtRemolque.setObjectName('txtRemolque')
         self.txtRemolque.setMaximumWidth(200)
         self.txtProducto = QtGui.QLineEdit(self)
+        self.txtProducto.setReadOnly(True)
         self.txtCliente = QtGui.QLineEdit(self)
+        self.txtCliente.setReadOnly(True)
         self.txtProveedor = QtGui.QLineEdit(self)
+        self.txtProveedor.setReadOnly(True)
         self.txtAgencia = QtGui.QLineEdit(self)
+        self.txtAgencia.setReadOnly(True)
         self.txtPoseedor = QtGui.QLineEdit(self)
+        self.txtPoseedor.setReadOnly(True)
         self.txtConductor = QtGui.QLineEdit(self)
+        self.txtConductor.setReadOnly(True)
         self.txtPesoEntrada = QtGui.QLineEdit(self)
+        self.txtPesoEntrada.setObjectName('txtPesoEntrada')
         self.txtPesoEntrada.setMaximumWidth(200)
         self.txtPesoSalida = QtGui.QLineEdit(self)
+        self.txtPesoSalida.setObjectName('txtPesoSalida')
         self.txtPesoSalida.setMaximumWidth(200)
         self.txtNeto = QtGui.QLineEdit(self)
+        self.txtNeto.setObjectName('txtNeto')
         self.txtNeto.setMaximumWidth(200)
+        self.txtOrigen = QtGui.QLineEdit(self)
+        self.txtDestino = QtGui.QLineEdit(self)
 
         self.btnProductos = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
         self.btnCliente = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
@@ -102,6 +80,7 @@ class V_Principal(QtGui.QMainWindow):
         self.btnPoseedor = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
         self.btnConductor = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
         self.btnNuevo = QtGui.QPushButton(const.NUEVO, self)
+        self.btnTransito = QtGui.QPushButton('T', self)
         self.dtFechaEntrada = QtGui.QDateTimeEdit(self)
 
         self.habilitar_controles(habilitar=False)
@@ -111,10 +90,65 @@ class V_Principal(QtGui.QMainWindow):
         self.vbox_fondo = QtGui.QVBoxLayout()
         self.grid_fondo = QtGui.QGridLayout()
 
+    def maquetar(self):
+        self.grid_fondo.addWidget(self.btnNuevo, 0, 0)
+        self.grid_fondo.addWidget(self.btnTransito, 0, 1)
+        self.grid_fondo.addWidget(self.lblCabina, 1, 0)
+        self.grid_fondo.addWidget(self.lblRemolque, 1, 3)
+        self.grid_fondo.addWidget(self.lblFechaEntrada, 2, 3)
+        self.grid_fondo.addWidget(self.lblProducto, 3, 0)
+        self.grid_fondo.addWidget(self.lblCliente, 4, 0)
+        self.grid_fondo.addWidget(self.lblProveedor, 5, 0)
+        self.grid_fondo.addWidget(self.lblAgencia, 6, 0)
+        self.grid_fondo.addWidget(self.lblPoseedor, 7, 0)
+        self.grid_fondo.addWidget(self.lblConductor, 8, 0)
+        self.grid_fondo.addWidget(self.lblOrigen, 9, 0)
+        self.grid_fondo.addWidget(self.lblDestino, 10, 0)
+        self.grid_fondo.addWidget(self.lblPesoEntrada, 11, 0)
+        self.grid_fondo.addWidget(self.lblPesoSalida, 12, 0)
+        self.grid_fondo.addWidget(self.lblNeto, 13, 0)
+
+        self.grid_fondo.addWidget(self.txtCabina, 1, 1, 1, 3)
+        self.grid_fondo.addWidget(self.txtRemolque, 1, 4, 1, 1)
+        self.grid_fondo.addWidget(self.dtFechaEntrada, 2, 4, 1, 1)
+        self.grid_fondo.addWidget(self.txtProducto, 3, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtCliente, 4, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtProveedor, 5, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtAgencia, 6, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtPoseedor, 7, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtConductor, 8, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtOrigen, 9, 1, 2, 5)
+        self.grid_fondo.addWidget(self.txtDestino, 10, 1, 1, 5)
+        self.grid_fondo.addWidget(self.txtPesoEntrada, 11, 1)
+        self.grid_fondo.addWidget(self.txtPesoSalida, 12, 1)
+        self.grid_fondo.addWidget(self.txtNeto, 13, 1)
+
+        self.grid_fondo.addWidget(self.btnProductos, 3, 6, 1, 1)
+        self.grid_fondo.addWidget(self.btnCliente, 4, 6, 1, 1)
+        self.grid_fondo.addWidget(self.btnProveedor, 5, 6, 1, 1)
+        self.grid_fondo.addWidget(self.btnAgencia, 6, 6, 1, 1)
+        self.grid_fondo.addWidget(self.btnPoseedor, 7, 6, 1, 1)
+        self.grid_fondo.addWidget(self.btnConductor, 8, 6, 1, 1)
+
+        self.vbox_fondo.addLayout(self.grid_fondo)
+        self.vbox_fondo.addStretch(0)
+        self.frame.setLayout(self.vbox_fondo)
+
+        self.setCentralWidget(self.frame)
+
+
     def iniciar_eventos(self):
         self.txtCabina.returnPressed.connect(lambda:
                                              self.pulsado_enter(
                                                  control='txtcabina'
+                                             ))
+        self.txtPesoEntrada.returnPressed.connect(lambda:
+                                             self.pulsado_enter(
+                                                 control='txtPesoEntrada'
+                                             ))
+        self.txtPesoSalida.returnPressed.connect(lambda:
+                                             self.pulsado_enter(
+                                                 control='txtPesoSalida'
                                              ))
         self.txtCabina.textChanged.connect(lambda:
                                            Util.formato_matricula(
@@ -170,6 +204,7 @@ class V_Principal(QtGui.QMainWindow):
         self.btnAgencia.clicked.connect(lambda: self.clickAction('Buscar: Agencia'))
         self.btnPoseedor.clicked.connect(lambda: self.clickAction('Buscar: Poseedor'))
         self.btnConductor.clicked.connect(lambda: self.clickAction('Buscar: Conductor'))
+        self.btnTransito.clicked.connect(lambda: self.clickAction('Buscar: Transito'))
 
     def clickAction(self, accion=''):
 
@@ -177,14 +212,59 @@ class V_Principal(QtGui.QMainWindow):
             if 'Nuevo/guardar' in accion:
                 if const.NUEVO in self.btnNuevo.text():
                     self.habilitar_controles(habilitar=True)
+                    self.transito_actual = Transito_actual()
 
                 elif const.GUARDAR in self.btnNuevo.text():
+                    if self.txtPesoEntrada.text().isdigit() is True \
+                        and self.txtPesoSalida.text().isdigit() is True \
+                        and self.txtNeto.text().isdigit() is True:
+                        '''se ha pesado ya para salir, guardar en historico
+                        e imprimir
+                        '''
+                        self.transito_actual.fecha_salida = core.Fechas.get_fecha_salida_str()
+                        self.pasar_datos_a_transito()
+                    else:
+                        ''' guardar transito en la base de datos
+                        '''
+                        self.pasar_datos_a_transito()
+                        Logica_Transitos().guardar_transito(self.transito_actual)
+
                     self.habilitar_controles(habilitar=False)
+
+
             elif 'Buscar: ' in accion:
                 lugar = accion.replace('Buscar: ', '')
                 dialogo = Ventana_buscar(parent=self, buscar=lugar)
                 dialogo.show()
 
+    def pasar_datos_a_transito(self):
+        ''' Pasa los datos al objeto transito_actual para despues
+        poder guardarlos si se desea
+        '''
+        #self.transito_actual = Transito_actual()
+        self.transito_actual.mat_cabina = self.txtCabina.text()
+        self.transito_actual.mat_remolque = self.txtRemolque.text()
+        self.transito_actual.fecha_entrada = self.dtFechaEntrada.text()
+        self.transito_actual.bruto = self.txtPesoEntrada.text()
+        self.transito_actual.tara = self.txtPesoSalida.text()
+        self.transito_actual.neto = self.txtNeto.text()
+        self.transito_actual.origen = self.txtOrigen.text()
+        self.transito_actual.destino = self.txtDestino.text()
+
+        print(self.transito_actual)
+
+    def calcula_neto(self):
+        n1 = int(self.txtPesoEntrada.text())
+        n2 = int(self.txtPesoSalida.text())
+        neto = 0
+
+        if n2 > n1:
+            neto = n2 -n1
+        elif n1 > n2:
+            neto = n1 -n2
+
+        self.txtNeto.setText("%s" % neto)
+        return neto
 
     def habilitar_controles(self, habilitar=False):
 
@@ -248,6 +328,10 @@ class V_Principal(QtGui.QMainWindow):
         if control != '':
             if 'txtCabina' in control:
                 self.txtRemolque.setFocus()
+            elif 'txtPesoEntrada' in control:
+                self.txtPesoSalida.setFocus()
+            elif 'txtPesoSalida' in control:
+                self.calcula_neto()
 
 
     def poner_estilos(self):

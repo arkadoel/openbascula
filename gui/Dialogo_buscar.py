@@ -3,6 +3,7 @@ from PyQt4 import QtGui
 import Constantes as const
 from directORM.forProductos import TbProductos
 from directORM.forEmpresas import TbEmpresas
+from directORM.forConductores import TbConductores
 
 import gui.Principal
 
@@ -15,7 +16,7 @@ class Ventana_buscar(QtGui.QDialog):
 
         self.lugar = buscar.upper()
         super(Ventana_buscar, self).__init__(parent=self.parent)
-        self.setGeometry(30, 40, 500, 500)
+        self.setGeometry(30, 40, 800, 500)
         self.setWindowTitle("Busqueda de " + buscar)
         self.iniciar_controles()
 
@@ -69,6 +70,17 @@ class Ventana_buscar(QtGui.QDialog):
                 self.lstBuscado.clear()
                 for empresa in self.lista:
                     self.lstBuscado.addItem(empresa.nombre)
+            elif 'CONDUCTOR' in lugar:
+                tabla = TbConductores()
+                if filtro is not None:
+                    filtro = "nombre || ' ' || apellidos like '%@filtro%'".replace('@filtro', filtro)
+                self.lista = tabla.get_conductores(filtro=filtro)
+
+                self.lstBuscado.clear()
+                for conductor in self.lista:
+                    self.lstBuscado.addItem("%s %s" % (conductor.nombre,
+                                                       conductor.apellidos))
+
 
     def clickAction(self, accion=''):
         if 'BUSCAR' in accion:
@@ -78,17 +90,34 @@ class Ventana_buscar(QtGui.QDialog):
             )
         elif 'ACEPTAR' in accion:
             seleccionado = self.lstBuscado.currentItem().text()
+            index = self.lstBuscado.currentRow()
+
             assert isinstance(self.parent, gui.Principal.V_Principal)
             if 'PRODUCTOS' in self.lugar:
                 self.parent.txtProducto.setText(seleccionado)
+                id = self.lista[index].id_producto
+                self.parent.transito_actual.id_producto = id
             elif 'CLIENTES' in self.lugar:
                 self.parent.txtCliente.setText(seleccionado)
+                id = self.lista[index].id_empresa
+                self.parent.transito_actual.id_cliente = id
             elif 'PROVEEDOR' in self.lugar:
                 self.parent.txtProveedor.setText(seleccionado)
+                id = self.lista[index].id_empresa
+                self.parent.transito_actual.id_proveedor = id
             elif 'AGENCIA' in self.lugar:
                 self.parent.txtAgencia.setText(seleccionado)
+                id = self.lista[index].id_empresa
+                self.parent.transito_actual.id_agencia = id
             elif 'POSEEDOR' in self.lugar:
                 self.parent.txtPoseedor.setText(seleccionado)
+                id = self.lista[index].id_empresa
+                self.parent.transito_actual.id_poseedor = id
             elif 'CONDUCTOR' in self.lugar:
                 self.parent.txtConductor.setText(seleccionado)
+                id = self.lista[index].id_conductor
+                self.parent.transito_actual.id_conductor = id
+
+
+
             self.close()

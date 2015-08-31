@@ -26,6 +26,38 @@ class Transito_actual:
         self.origen = ''
         self.destino = ''
 
+    def __str__(self):
+        txt = ('''
+        id: %s
+        cabina: %s
+        remolque: %s
+        fecha entrada %s
+        fecha salida %s
+        id producto %s
+        id proveedor %s
+        id poseedor %s
+        id cliente %s
+        id agencia %s
+        id conductor %s
+        bruto %s
+        tara %s
+        neto %s
+        ''' % (self.id_transito,
+               self.mat_cabina,
+               self.mat_remolque,
+               self.fecha_entrada,
+               self.fecha_salida,
+               self.id_producto,
+               self.id_proveedor,
+               self.id_poseedor,
+               self.id_cliente,
+               self.id_agencia,
+               self.id_conductor,
+               self.bruto,
+               self.tara,
+               self.neto))
+        return txt
+
 class TbTransito_actuales:
     INSERT = '''
         insert into Transito_actuales

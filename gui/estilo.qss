@@ -7,7 +7,7 @@ QLabel
     font: bold 12px;
     padding: 10px;
 }
-QLineEdit,QDateTimeEdit, QListWidget
+QLineEdit,QDateTimeEdit
 {
     text-align: center;
     height: 25px;
@@ -16,6 +16,12 @@ QLineEdit,QDateTimeEdit, QListWidget
     border-width: 2px;
     border-radius: 5px;
     border-color: black;
+}
+
+QListWidget, QListWidget::Item
+{
+
+    font-size: 14pt;
 }
 
 QLineEdit#txtCabina, QLineEdit#txtRemolque
@@ -28,6 +34,18 @@ QLineEdit#txtCabina, QLineEdit#txtRemolque
     border-radius: 5px;
     border-color: black;
     qproperty-alignment: AlignCenter;
+}
+
+QLineEdit#txtNeto, QLineEdit#txtPesoEntrada,QLineEdit#txtPesoSalida
+{
+    text-align: center;
+    height: 25px;
+    font: 16px 'Courier New';
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: black;
+    qproperty-alignment: AlignRight;
 }
 
 QPushButton

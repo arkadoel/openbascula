@@ -19,7 +19,7 @@ class Util:
                     control.setText(texto)
 
             #poner los espacios como guiones
-            if ' ' in control.text()[-1]:
+            if ' ' in control.text():
                 control.setText(control.text().replace(' ', '-'))
             #poner el texto en mayusculas
             control.setText(control.text().upper())

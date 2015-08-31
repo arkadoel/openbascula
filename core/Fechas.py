@@ -61,3 +61,7 @@ def fecha_larga_desde_QDateTime(control=None):
     assert isinstance(control, QtCore.QDateTime)
     fecha = (control.toString('dd/MM/yyyy hh:mm:ss'))
     return fecha
+
+def get_fecha_salida_str():
+    fecha = QtCore.QDateTime.currentDateTime().toString('dd/MM/yyyy hh:mm:ss')
+    return fecha
