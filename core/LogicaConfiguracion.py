@@ -7,3 +7,6 @@ class Logica_Configuracion:
         for conf in configuraciones:
             assert isinstance(conf, Configuracion)
             print('Parametro: %s  Valor: %s' % (conf.parametro, conf.valor))
+
+
+

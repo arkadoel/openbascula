@@ -4,6 +4,7 @@ import Constantes as const
 from directORM.forProductos import TbProductos
 from directORM.forEmpresas import TbEmpresas
 from directORM.forConductores import TbConductores
+from directORM.forTransito_actuales import TbTransito_actuales
 
 import gui.Principal
 
@@ -80,6 +81,16 @@ class Ventana_buscar(QtGui.QDialog):
                 for conductor in self.lista:
                     self.lstBuscado.addItem("%s %s" % (conductor.nombre,
                                                        conductor.apellidos))
+            elif 'TRANSITO' in lugar:
+                tabla = TbTransito_actuales()
+                if filtro is not None:
+                    filtro = "mat_cabina || ' ' || mat_remolque like '%@filtro%'".replace('@filtro', filtro)
+                self.lista = tabla.get_transito_actuales(filtro=filtro)
+
+                self.lstBuscado.clear()
+                for transito in self.lista:
+                    self.lstBuscado.addItem("%s  %s" % (transito.mat_cabina,
+                                                        transito.mat_remolque))
 
 
     def clickAction(self, accion=''):
@@ -117,7 +128,9 @@ class Ventana_buscar(QtGui.QDialog):
                 self.parent.txtConductor.setText(seleccionado)
                 id = self.lista[index].id_conductor
                 self.parent.transito_actual.id_conductor = id
-
+            elif 'TRANSITO' in self.lugar:
+                id = self.lista[index].id_transito
+                self.parent.cargar_datos_desde_db(id=id)
 
 
             self.close()

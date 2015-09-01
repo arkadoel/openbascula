@@ -94,7 +94,7 @@ class TbTransito_actuales:
 
     def remove(self, transito_actual ):
         sql = self.DELETE
-        self.gestorDB.ejecutarSQL(sql, (transito_actual.id_transito))
+        self.gestorDB.ejecutarSQL(sql, str(transito_actual.id_transito))
 
     def get_transito_actual(self, id_transito=None):
         sql = self.SELECT + " where id_transito=" + str(id_transito) +";"

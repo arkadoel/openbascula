@@ -80,7 +80,7 @@ class V_Principal(QtGui.QMainWindow):
         self.btnPoseedor = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
         self.btnConductor = QtGui.QPushButton(QtGui.QIcon(const.ICONO.BUSCAR), '', self)
         self.btnNuevo = QtGui.QPushButton(const.NUEVO, self)
-        self.btnTransito = QtGui.QPushButton('T', self)
+        self.btnTransito = QtGui.QPushButton('EN TRANSITO', self)
         self.dtFechaEntrada = QtGui.QDateTimeEdit(self)
 
         self.habilitar_controles(habilitar=False)
@@ -117,7 +117,7 @@ class V_Principal(QtGui.QMainWindow):
         self.grid_fondo.addWidget(self.txtAgencia, 6, 1, 1, 5)
         self.grid_fondo.addWidget(self.txtPoseedor, 7, 1, 1, 5)
         self.grid_fondo.addWidget(self.txtConductor, 8, 1, 1, 5)
-        self.grid_fondo.addWidget(self.txtOrigen, 9, 1, 2, 5)
+        self.grid_fondo.addWidget(self.txtOrigen, 9, 1, 1, 5)
         self.grid_fondo.addWidget(self.txtDestino, 10, 1, 1, 5)
         self.grid_fondo.addWidget(self.txtPesoEntrada, 11, 1)
         self.grid_fondo.addWidget(self.txtPesoSalida, 12, 1)
@@ -184,6 +184,14 @@ class V_Principal(QtGui.QMainWindow):
                                              Util.formato_mayuscula(
                                                  control=self.txtProveedor
                                              ))
+        self.txtOrigen.textChanged.connect(lambda:
+                                             Util.formato_mayuscula(
+                                                 control=self.txtOrigen
+                                             ))
+        self.txtDestino.textChanged.connect(lambda:
+                                             Util.formato_mayuscula(
+                                                 control=self.txtDestino
+                                             ))
         self.txtNeto.textChanged.connect(lambda:
                                              Util.formato_numerico(
                                                  control=self.txtNeto
@@ -223,19 +231,53 @@ class V_Principal(QtGui.QMainWindow):
                         '''
                         self.transito_actual.fecha_salida = core.Fechas.get_fecha_salida_str()
                         self.pasar_datos_a_transito()
+                        Logica_Transitos().guardar_a_historico(id=self.transito_actual.id_transito)
                     else:
                         ''' guardar transito en la base de datos
                         '''
                         self.pasar_datos_a_transito()
-                        Logica_Transitos().guardar_transito(self.transito_actual)
+
 
                     self.habilitar_controles(habilitar=False)
-
 
             elif 'Buscar: ' in accion:
                 lugar = accion.replace('Buscar: ', '')
                 dialogo = Ventana_buscar(parent=self, buscar=lugar)
                 dialogo.show()
+
+    def cargar_datos_desde_db(self, id=None):
+        transito = Logica_Transitos().get_transito(id)
+        if transito is not None:
+            self.transito_actual = transito
+            #self.transito_actual = Transito_actual()
+            self.habilitar_controles(True)
+
+            self.txtCabina.setText(self.transito_actual.mat_cabina)
+            self.txtRemolque.setText(self.transito_actual.mat_remolque)
+            self.dtFechaEntrada.setDateTime(
+                QtCore.QDateTime.fromString(
+                    self.transito_actual.fecha_entrada
+                )
+            )
+            self.txtOrigen.setText(self.transito_actual.origen)
+            self.txtDestino.setText(self.transito_actual.destino)
+            self.txtPesoEntrada.setText(self.transito_actual.bruto.__str__())
+            self.txtPesoSalida.setText(self.transito_actual.tara.__str__())
+            self.txtNeto.setText(self.transito_actual.neto.__str__())
+
+            producto, \
+            poseedor, \
+            proveedor, \
+            cliente, \
+            agencia, \
+            conductor = Logica_Transitos().nombres_desde_db(transito=self.transito_actual)
+
+            self.txtProducto.setText(producto)
+            self.txtPoseedor.setText(poseedor)
+            self.txtProveedor.setText(proveedor)
+            self.txtCliente.setText(cliente)
+            self.txtAgencia.setText(agencia)
+            self.txtConductor.setText(conductor)
 
     def pasar_datos_a_transito(self):
         ''' Pasa los datos al objeto transito_actual para despues
@@ -251,6 +293,8 @@ class V_Principal(QtGui.QMainWindow):
         self.transito_actual.origen = self.txtOrigen.text()
         self.transito_actual.destino = self.txtDestino.text()
 
+        #lo guardamos en la DB
+        Logica_Transitos().guardar_transito(self.transito_actual)
         print(self.transito_actual)
 
     def calcula_neto(self):
@@ -276,6 +320,8 @@ class V_Principal(QtGui.QMainWindow):
         self.txtConductor.setEnabled(habilitar)
         self.txtPoseedor.setEnabled(habilitar)
         self.txtProducto.setEnabled(habilitar)
+        self.txtOrigen.setEnabled(habilitar)
+        self.txtDestino.setEnabled(habilitar)
         self.dtFechaEntrada.setEnabled(habilitar)
 
         if habilitar is False:
@@ -288,6 +334,8 @@ class V_Principal(QtGui.QMainWindow):
             self.txtConductor.setText('')
             self.txtPoseedor.setText('')
             self.txtProducto.setText('')
+            self.txtOrigen.setText('')
+            self.txtDestino.setText('')
 
             #cambiar color a gris
             self.txtCabina.setStyleSheet('background-color: gainsboro;')
@@ -302,6 +350,8 @@ class V_Principal(QtGui.QMainWindow):
             self.txtPesoEntrada.setStyleSheet('background-color: gainsboro;')
             self.txtPesoSalida.setStyleSheet('background-color: gainsboro;')
             self.txtNeto.setStyleSheet('background-color: gainsboro;')
+            self.txtOrigen.setStyleSheet('background-color: gainsboro;')
+            self.txtDestino.setStyleSheet('background-color: gainsboro;')
             self.btnNuevo.setText(const.NUEVO)
         else:
             self.txtCabina.setStyleSheet('background-color: white;')
@@ -312,6 +362,8 @@ class V_Principal(QtGui.QMainWindow):
             self.txtConductor.setStyleSheet('background-color: white;')
             self.txtPoseedor.setStyleSheet('background-color: white;')
             self.txtProducto.setStyleSheet('background-color: white;')
+            self.txtOrigen.setStyleSheet('background-color: white;')
+            self.txtDestino.setStyleSheet('background-color: white;')
             self.dtFechaEntrada.setStyleSheet('background-color: white;')
             self.txtPesoSalida.setStyleSheet('background-color: white;')
             self.txtPesoEntrada.setStyleSheet('background-color: white;')
@@ -319,7 +371,6 @@ class V_Principal(QtGui.QMainWindow):
             self.btnNuevo.setText(const.GUARDAR)
             self.txtCabina.setFocus()
             self.dtFechaEntrada.setDateTime(QtCore.QDateTime.currentDateTime())
-
 
 
     def pulsado_enter(self, control=''):
