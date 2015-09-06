@@ -130,7 +130,6 @@ class Ventana_buscar(QtGui.QDialog):
                 self.parent.transito_actual.id_conductor = id
             elif 'TRANSITO' in self.lugar:
                 id = self.lista[index].id_transito
+                self.close()
                 self.parent.cargar_datos_desde_db(id=id)
-
-
             self.close()

@@ -234,8 +234,10 @@ class V_Principal(QtGui.QMainWindow):
                         '''
                         self.transito_actual.fecha_salida = core.Fechas.get_fecha_salida_str()
                         self.pasar_datos_a_transito()
-                        #Logica_Transitos().guardar_a_historico(id=self.transito_actual.id_transito)
-                        self.imprimir_albaran()
+                        historico = Logica_Transitos().guardar_a_historico(id=self.transito_actual.id_transito)
+                        if historico is not None:
+                            v_imprimir = Ventana_Imprimir(parent=self, datos=historico)
+                            v_imprimir.show()
                     else:
                         ''' guardar transito en la base de datos
                         '''
@@ -249,9 +251,6 @@ class V_Principal(QtGui.QMainWindow):
                 dialogo = Ventana_buscar(parent=self, buscar=lugar)
                 dialogo.show()
 
-    def imprimir_albaran(self):
-        v_imprimir = Ventana_Imprimir(parent=self)
-        v_imprimir.show()
 
     def cargar_datos_desde_db(self, id=None):
         transito = Logica_Transitos().get_transito(id)

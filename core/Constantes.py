@@ -7,6 +7,8 @@ APP_VERSION = '0.0.1'
 
 NUEVO = 'NUEVO'
 GUARDAR = 'GUARDAR'
+IMPRIMIR = 'IMPRIMIR'
+PLANTILLA_ALBARAN = 'media/albaran.html'
 
 class ICONO:
     BUSCAR = 'media/Search-icon.png'

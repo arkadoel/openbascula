@@ -21,7 +21,7 @@ class Historico:
         self.importe_final = ''
         self.importe_sin_iva = ''
         self.importe_producto = ''
-        self.nombre_producto = 0
+        self.nombre_producto = ''
         self.tipo_material = ''
         self.cod_conta_prod = 0
         self.razon_social_cliente = ''

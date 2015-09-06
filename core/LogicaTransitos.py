@@ -155,10 +155,11 @@ class Logica_Transitos:
             historico.ubicacion_conductor = ('%s (%s)' % (conductor.localidad, conductor.provincia))
 
             historicos.save(historico)
-            self.eliminar_transito(id=transito_tmp.id_transito)
-
+            #self.eliminar_transito(id=transito_tmp.id_transito)
+            return historico
         else:
             print('No se pudo guardar el transito en el historico')
+            return None
 
     def eliminar_transito(self, id=None):
         if id is not None:

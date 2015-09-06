@@ -123,7 +123,7 @@
 		<column name="importe_final" type="varchar" />
 		<column name="importe_sin_iva" type="varchar" />
 		<column name="importe_producto" type="varchar" />
-		<column name="nombre_producto" type="int" />
+		<column name="nombre_producto" type="varchar" />
 		<column name="tipo_material" type="varchar" />
 		<column name="cod_conta_prod" type="int" />
 		<!-- CLIENTE -->
