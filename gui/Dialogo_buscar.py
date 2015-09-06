@@ -1,12 +1,12 @@
-
 from PyQt4 import QtGui
-import Constantes as const
+
+from core import Constantes as const
 from directORM.forProductos import TbProductos
 from directORM.forEmpresas import TbEmpresas
 from directORM.forConductores import TbConductores
 from directORM.forTransito_actuales import TbTransito_actuales
-
 import gui.Principal
+
 
 class Ventana_buscar(QtGui.QDialog):
     """

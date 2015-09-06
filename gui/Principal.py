@@ -1,10 +1,13 @@
 from PyQt4 import QtGui, QtCore
+
 import core.Fechas
-import Constantes as const
+from core import Constantes as const
 from gui import Util
 from gui.Dialogo_buscar import Ventana_buscar
 from directORM.forTransito_actuales import Transito_actual
 from core.LogicaTransitos import Logica_Transitos
+from gui.Dialogo_impresion import Ventana_Imprimir
+
 
 class V_Principal(QtGui.QMainWindow):
     """
@@ -231,7 +234,8 @@ class V_Principal(QtGui.QMainWindow):
                         '''
                         self.transito_actual.fecha_salida = core.Fechas.get_fecha_salida_str()
                         self.pasar_datos_a_transito()
-                        Logica_Transitos().guardar_a_historico(id=self.transito_actual.id_transito)
+                        #Logica_Transitos().guardar_a_historico(id=self.transito_actual.id_transito)
+                        self.imprimir_albaran()
                     else:
                         ''' guardar transito en la base de datos
                         '''
@@ -244,6 +248,10 @@ class V_Principal(QtGui.QMainWindow):
                 lugar = accion.replace('Buscar: ', '')
                 dialogo = Ventana_buscar(parent=self, buscar=lugar)
                 dialogo.show()
+
+    def imprimir_albaran(self):
+        v_imprimir = Ventana_Imprimir(parent=self)
+        v_imprimir.show()
 
     def cargar_datos_desde_db(self, id=None):
         transito = Logica_Transitos().get_transito(id)

@@ -3,13 +3,16 @@ __author__ = 'https://github.com/arkadoel'
 __version__ = '0.0.1'
 __license__ = 'Gen Source v0.1 (compatible con GPLv3)'
 
-from PyQt4 import QtGui
-import sys, os
-import Constantes as const
+import sys
+import os
 
+from PyQt4 import QtGui
+
+from core.Constantes import *
 from gui.Principal import V_Principal
 from core.LogicaConfiguracion import Logica_Configuracion
 from directORM import Db
+
 
 def abrir_ventana():
     """
@@ -29,7 +32,7 @@ def carga_configuraciones():
     Logica_Configuracion()
 
 if __name__ == '__main__':
-    print('Iniciando %s %s' % (const.APP_NAME, const.APP_VERSION))
+    print('Iniciando %s %s' % (APP_NAME, APP_VERSION))
     carga_configuraciones()
     abrir_ventana()
 
