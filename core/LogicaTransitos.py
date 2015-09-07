@@ -1,8 +1,8 @@
 
 from directORM.forTransito_actuales import Transito_actual, TbTransito_actuales
-from directORM.forProductos import TbProductos
-from directORM.forEmpresas import TbEmpresas
-from directORM.forConductores import TbConductores
+from directORM.forProductos import TbProductos, Producto
+from directORM.forEmpresas import TbEmpresas, Empresa
+from directORM.forConductores import TbConductores, Conductor
 from directORM.forHistoricos import TbHistoricos, Historico
 from directORM.forConfiguraciones import TbConfiguraciones, Configuracion
 
@@ -53,6 +53,20 @@ class Logica_Transitos:
 
             tconductores = TbConductores()
             conductor = tconductores.get_conductor(id_conductor=transito.id_conductor)
+
+            if producto is None:
+                producto = Producto()
+
+            if poseedor is None:
+                poseedor = Empresa()
+            if proveedor is None:
+                proveedor = Empresa()
+            if cliente is None:
+                cliente = Empresa()
+            if agencia is None:
+                agencia = Empresa()
+            if conductor is None:
+                conductor = Empresa()
 
             return producto.nombre, \
                    poseedor.nombre, \

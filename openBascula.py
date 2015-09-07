@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'https://github.com/arkadoel'
 __version__ = '0.0.1'
-__license__ = 'Gen Source v0.1 (compatible con GPLv3)'
+__license__ = 'MIRE LA LICENCIA ADJUNTA, SI NO ACEPTA LA LICENCIA O SUS TERMINOS' \
+              'NO USE ESTE SOFTWARE.'
 
 import sys
 import os
