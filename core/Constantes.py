@@ -12,3 +12,4 @@ PLANTILLA_ALBARAN = 'media/albaran.html'
 
 class ICONO:
     BUSCAR = 'media/Search-icon.png'
+    LOGO = 'media/LorryWhite48.png'

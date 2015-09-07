@@ -17,7 +17,7 @@ class V_Principal(QtGui.QMainWindow):
         super(V_Principal, self).__init__(parent=None)
         self.setGeometry(30, 40, 1000, 650)
         self.setWindowTitle(const.APP_NAME + " " + const.APP_VERSION)
-        #self.setWindowIcon(QtGui.QIcon('icono.png'))
+        self.setWindowIcon(QtGui.QIcon(const.ICONO.LOGO))
 
         self.iniciar_controles()
         self.maquetar()
