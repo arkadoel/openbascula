@@ -2,10 +2,34 @@ QFrame#myFrame
 {
     background: gainsboro;
 }
+
+QMessageBox
+{
+    font: bold 16px;
+}
+
 QLabel
 {
     font: bold 12px;
     padding: 10px;
+}
+QMenu
+{
+    background-color: #ABABAB; /* sets background of the menu */
+    border: 1px solid black;
+    font: bold 16px;
+}
+
+QMenu::item
+{
+    /* sets background of menu item. set this to something non-transparent
+        if you want menu color and menu item color to be different */
+    background-color: transparent;
+}
+
+QMenu::item:selected
+{ /* when user selects item using mouse or keyboard */
+    background-color: #654321;
 }
 QLineEdit,QDateTimeEdit
 {

@@ -1,4 +1,6 @@
 
+from PyQt4 import QtGui
+
 class Util:
 
     @staticmethod
@@ -48,3 +50,15 @@ class Util:
             else:
                 if texto[-1].isalpha():
                     control.setText(texto[0:-1])
+
+    @staticmethod
+    def center_window(ventana=None):
+        """
+        Alinea la ventana al centro de la pantalla
+        :param ventana: QMainWindow || QDialog || QWidget
+        :return:
+        """
+        qr = ventana.frameGeometry()
+        cp = QtGui.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        ventana.move(qr.topLeft())

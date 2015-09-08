@@ -736,7 +736,7 @@ OPERATIVIDAD INTERNA DE LA ORGANIZACION.
 
 El software licenciado bajo esta licencia deberá contener codigo referente a su caducidad, 
 despues de la cual deberá dejar de funcionar y ser renovado por alguna actualizacion por 
-parte de los autores del mismo. De esta manera se busca incentivar la mejora prograsiva de 
+parte de los autores del mismo. De esta manera se busca incentivar la mejora progresiva de 
 la calidad del software y evitar el uso por decadas de programas sin soporte.
 
             PRINCIPIO DE CONTRIBUCION ETICA

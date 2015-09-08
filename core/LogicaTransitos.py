@@ -73,7 +73,7 @@ class Logica_Transitos:
                    proveedor.nombre, \
                    cliente.nombre, \
                    agencia.nombre, \
-                   conductor.nombre
+                   ('%s %s' % (conductor.nombre, conductor.apellidos))
         else:
             return '', '', '', '', '', ''
 

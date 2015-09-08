@@ -18,10 +18,12 @@ class V_Principal(QtGui.QMainWindow):
         self.setGeometry(30, 40, 1000, 650)
         self.setWindowTitle(const.APP_NAME + " " + const.APP_VERSION)
         self.setWindowIcon(QtGui.QIcon(const.ICONO.LOGO))
+        self.setWindowState(QtCore.Qt.WindowMaximized)
 
         self.iniciar_controles()
         self.maquetar()
-
+        self.iniciar_eventos()
+        Util.center_window(ventana=self)
         self.transito_actual = None
 
     def iniciar_controles(self):
@@ -30,6 +32,8 @@ class V_Principal(QtGui.QMainWindow):
         """
         self.frame = QtGui.QFrame(parent=self)
         self.frame.setObjectName('myFrame')
+
+        self.iniciar_menus()
 
         self.lblCabina = QtGui.QLabel('CABINA', self)
         self.lblRemolque = QtGui.QLabel('REMOLQUE', self)
@@ -89,9 +93,21 @@ class V_Principal(QtGui.QMainWindow):
         self.habilitar_controles(habilitar=False)
 
         self.poner_estilos()
-        self.iniciar_eventos()
+
         self.vbox_fondo = QtGui.QVBoxLayout()
         self.grid_fondo = QtGui.QGridLayout()
+
+    def iniciar_menus(self):
+        menu = self.menuBar()
+        mnuMenu = menu.addMenu('Menu')
+
+        self.exitAction = QtGui.QAction('&Salir', self)
+        self.exitAction.setShortcut('Ctrl+s')
+        mnuMenu.addAction(self.exitAction)
+
+        mnuConfig = menu.addMenu('Configuracion')
+        mnuSoporte = menu.addMenu('Soporte y ayuda')
+
 
     def maquetar(self):
         self.grid_fondo.addWidget(self.btnNuevo, 0, 0)
@@ -133,6 +149,7 @@ class V_Principal(QtGui.QMainWindow):
         self.grid_fondo.addWidget(self.btnPoseedor, 7, 6, 1, 1)
         self.grid_fondo.addWidget(self.btnConductor, 8, 6, 1, 1)
 
+        self.vbox_fondo.addSpacing(10)
         self.vbox_fondo.addLayout(self.grid_fondo)
         self.vbox_fondo.addStretch(0)
         self.frame.setLayout(self.vbox_fondo)
@@ -217,6 +234,25 @@ class V_Principal(QtGui.QMainWindow):
         self.btnConductor.clicked.connect(lambda: self.clickAction('Buscar: Conductor'))
         self.btnTransito.clicked.connect(lambda: self.clickAction('Buscar: Transito'))
 
+
+        self.exitAction.triggered.connect(lambda: self.close())
+
+    def closeEvent(self, QCloseEvent):
+        msgBox = QtGui.QMessageBox()
+        msgBox.setWindowIcon(QtGui.QIcon(const.ICONO.LOGO))
+        msgBox.setWindowTitle(const.APP_NAME)
+        msgBox.setText(const.PREGUNTA_SALIDA)
+        msgBox.addButton(QtGui.QPushButton(const.SI), QtGui.QMessageBox.YesRole)
+        msgBox.addButton(QtGui.QPushButton(const.NO), QtGui.QMessageBox.NoRole)
+        msgBox.addButton(QtGui.QPushButton(const.CANCELAR), QtGui.QMessageBox.RejectRole)
+        reply = msgBox.exec_();
+
+        if reply == 0:
+            #0 == salir
+            QCloseEvent.accept()
+        else:
+            QCloseEvent.ignore()
+
     def clickAction(self, accion=''):
 
         if accion != '':
@@ -242,7 +278,6 @@ class V_Principal(QtGui.QMainWindow):
                         ''' guardar transito en la base de datos
                         '''
                         self.pasar_datos_a_transito()
-
 
                     self.habilitar_controles(habilitar=False)
 

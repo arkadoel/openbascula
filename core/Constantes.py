@@ -8,6 +8,10 @@ APP_VERSION = '0.0.1'
 NUEVO = 'NUEVO'
 GUARDAR = 'GUARDAR'
 IMPRIMIR = 'IMPRIMIR'
+PREGUNTA_SALIDA = '¿Seguro de que desea salir?'
+SI = 'Si'
+NO = 'No'
+CANCELAR = 'Cancelar'
 PLANTILLA_ALBARAN = 'media/albaran.html'
 
 class ICONO:
